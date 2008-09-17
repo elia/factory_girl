@@ -128,6 +128,19 @@ Factory.next :email
 Factory.next :email
 # => "person2@example.com"</code></pre>
 
+Last used value can be obtained by calling Factory.last:
+
+<pre><code># Defines a new sequence
+Factory.sequence :email do |n|
+  "person#{n}@example.com"
+end
+
+Factory.next :email
+# => "person1@example.com"
+
+Factory.last :email
+# => "person1@example.com"</code></pre>
+
 
 h2. Using factories
 

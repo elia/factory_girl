@@ -13,6 +13,11 @@ class Factory
       @proc.call(@value)
     end
 
+    # Returns the last requested value for this sequence
+    def last
+      @proc.call(@value)
+    end
+
   end
 
   cattr_accessor :sequences #:nodoc:
@@ -51,6 +56,22 @@ class Factory
     end
 
     self.sequences[sequence].next
+  end
+
+  # Generates and returns the last requested value in a sequence.
+  #
+  # Arguments:
+  #   name: (Symbol)
+  #     The name of the sequence that a value should be generated for.
+  #
+  # Returns:
+  #   The last requested value in the sequence. (Object)
+  def self.last (sequence)
+    unless self.sequences.key?(sequence)
+      raise "No such sequence: #{sequence}"
+    end
+
+    self.sequences[sequence].last
   end
 
 end

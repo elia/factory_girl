@@ -22,6 +22,10 @@ class SequenceTest < Test::Unit::TestCase
         assert_equal "=2", @sequence.next
       end
 
+      should "re-generate the last value" do
+        assert_equal @sequence.next, @sequence.last
+      end
+
     end
 
   end
@@ -54,8 +58,10 @@ class SequenceTest < Test::Unit::TestCase
       @sequence = mock('sequence')
       @name     = :test
       @value    = '1 2 5'
+      @last_value    = '3 6 9'
 
       @sequence.        stubs(:next).returns(@value)
+      @sequence.        stubs(:last).returns(@last_value)
       Factory::Sequence.stubs(:new). returns(@sequence)
 
       Factory.sequence(@name) {}
@@ -67,8 +73,18 @@ class SequenceTest < Test::Unit::TestCase
       Factory.next(@name)
     end
 
+    should "call last on the sequence when sent last" do
+      @sequence.expects(:last)
+
+      Factory.last(@name)
+    end
+
     should "return the value from the sequence" do
       assert_equal @value, Factory.next(@name)
+    end
+
+    should "return the last value from the sequence" do
+      assert_equal @last_value, Factory.last(@name)
     end
 
   end
